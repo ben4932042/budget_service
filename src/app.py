@@ -22,10 +22,7 @@ def str_to_datetime(input_date_str: str) -> datetime.datetime:
 
 def gen_dates(b_date, days):
     day = datetime.timedelta( days=1 )
-    # print(day)
-    for i in range( days ):
-        # print(b_date + day*i)
-        yield b_date + day * i
+    for i in range( days ): yield b_date + day * i
 
 
 def get_date_list(start_date, end_date) -> set:  # end_date=None
@@ -65,14 +62,14 @@ class BudgetService:
 
         else:
             start_month_days = last_day_of_month( start_datetime ).day
-            end_month_days = last_day_of_month( end_datetime ).day
             start_month_percentage = (start_month_days - start_datetime.day + 1) / start_month_days
-            end_month_percentage = end_datetime.day / end_month_days
             start_month_budget = self.db_result.get( month_list[0], 0 ) * start_month_percentage
+
+            end_month_days = last_day_of_month( end_datetime ).day
+            end_month_percentage = end_datetime.day / end_month_days
             end_month_budget = self.db_result.get( month_list[-1], 0 ) * end_month_percentage
 
             interval_month_budget = sum([self.db_result.get( each_month, 0 ) for each_month in month_list[1: -1]])
             return_budget = start_month_budget + end_month_budget + interval_month_budget
 
         return return_budget
-

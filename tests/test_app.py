@@ -1,6 +1,4 @@
-import src.app
 from src.app import *
-import datetime
 import pytest
 
 
